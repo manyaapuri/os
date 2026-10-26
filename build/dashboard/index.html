@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Distributed File System | Windows OS Architecture Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Banner -->
+  <header class="top-header">
+    <div class="header-left">
+      <div class="logo-badge">
+        <svg class="icon-dfs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="main-title">Distributed File System with OS-Level Resource Management</h1>
+        <p class="subtitle">Windows-Native Architecture &bull; Winsock2 &bull; C++20 &bull; Concurrency &bull; Fault Tolerance</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="pulse-indicator">
+        <span class="pulse-dot"></span>
+        <span id="clusterStatusText">CLUSTER ONLINE</span>
+      </div>
+      <div class="stat-pill">
+        <span class="pill-label">Coordinator PID:</span>
+        <span id="coordPid" class="pill-val">--</span>
+      </div>
+      <div class="stat-pill">
+        <span class="pill-label">Active Threads:</span>
+        <span id="activeThreads" class="pill-val">--</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top KPI Ribbon -->
+  <section class="kpi-ribbon">
+    <div class="kpi-card">
+      <span class="kpi-title">Healthy Storage Nodes</span>
+      <span id="kpiNodes" class="kpi-value text-cyan">-- / 3</span>
+      <span class="kpi-sub">Winsock2 TCP Replicas</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-title">Total Managed Files</span>
+      <span id="kpiFiles" class="kpi-value text-indigo">--</span>
+      <span class="kpi-sub">SQLite Metadata Store</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-title">Scheduler Algorithm</span>
+      <span id="kpiScheduler" class="kpi-value text-emerald">FCFS</span>
+      <span class="kpi-sub" id="kpiThroughput">0.0 ops/sec</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-title">Buffer Occupancy</span>
+      <span id="kpiBuffer" class="kpi-value text-amber">0%</span>
+      <span class="kpi-sub" id="kpiBlocked">0 Blocked Producers</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-title">Cache Hit Ratio</span>
+      <span id="kpiCache" class="kpi-value text-purple">0.0%</span>
+      <span class="kpi-sub" id="kpiCacheHits">0 Hits / 0 Misses</span>
+    </div>
+  </section>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button class="tab-btn active" data-tab="nodes">Storage Nodes &amp; Fault Injection</button>
+    <button class="tab-btn" data-tab="files">File Explorer &amp; Replicas</button>
+    <button class="tab-btn" data-tab="scheduler">Request Scheduling &amp; Processes</button>
+    <button class="tab-btn" data-tab="buffer">Memory Buffer &amp; Cache</button>
+    <button class="tab-btn" data-tab="sync">Synchronization &amp; Deadlocks</button>
+    <button class="tab-btn" data-tab="recovery">Crash Recovery &amp; WAL</button>
+    <button class="tab-btn" data-tab="disksim">Disk Seek Simulator</button>
+    <button class="tab-btn" data-tab="audit">Security &amp; Audit Trail</button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="content-container">
+
+    <!-- TAB 1: Storage Nodes & Fault Tolerance -->
+    <section id="tab-nodes" class="tab-pane active">
+      <div class="section-header">
+        <div>
+          <h2>Storage Node Clusters &amp; Fault Injection Controls</h2>
+          <p class="section-desc">Independent Win32 processes storing distributed chunks. Simulate node crash and observe failover reads and re-replication.</p>
+        </div>
+      </div>
+
+      <div class="nodes-grid" id="nodesContainer">
+        <!-- Node cards injected dynamically -->
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Fault Tolerance &amp; Failover Architecture Verification</h3>
+        </div>
+        <div class="card-body">
+          <div class="architecture-steps">
+            <div class="arch-step">
+              <span class="step-num">1</span>
+              <h4>Configurable Replication</h4>
+              <p>Each uploaded file is divided into 64KB chunks and replicated across configurable independent storage node processes.</p>
+            </div>
+            <div class="arch-step">
+              <span class="step-num">2</span>
+              <h4>Heartbeat &amp; Failure Detection</h4>
+              <p>Storage nodes stream periodic TCP heartbeats. If a node fails for &gt; 5 seconds, it is marked OFFLINE.</p>
+            </div>
+            <div class="arch-step">
+              <span class="step-num">3</span>
+              <h4>Seamless Failover Reads</h4>
+              <p>When reading a file whose primary replica is down, the coordinator transparently falls back to healthy surviving replicas.</p>
+            </div>
+            <div class="arch-step">
+              <span class="step-num">4</span>
+              <h4>Automatic Re-Replication</h4>
+              <p>Background health monitor identifies under-replicated chunks and copies them to available healthy nodes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: File Explorer & Replicas -->
+    <section id="tab-files" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Distributed File Explorer</h2>
+          <p class="section-desc">Manage files, inspect chunk distributions, verify SHA-256 integrity, and explore version history.</p>
+        </div>
+        <div class="actions-group">
+          <button class="btn btn-primary" id="openUploadModalBtn">Upload New File</button>
+          <button class="btn btn-secondary" id="refreshFilesBtn">Refresh</button>
+        </div>
+      </div>
+
+      <!-- Upload Modal / Drawer -->
+      <div class="card mb-4" id="uploadCard" style="display: none;">
+        <div class="card-header">
+          <h3>Upload File to Distributed System</h3>
+          <button class="btn-close" id="closeUploadBtn">&times;</button>
+        </div>
+        <div class="card-body">
+          <form id="uploadForm">
+            <div class="form-row">
+              <div class="form-group flex-2">
+                <label for="uploadPath">DFS Virtual Path</label>
+                <input type="text" id="uploadPath" placeholder="/documents/report.txt" required>
+              </div>
+              <div class="form-group flex-1">
+                <label for="uploadRepl">Replication Factor</label>
+                <select id="uploadRepl">
+                  <option value="2" selected>2 Replicas</option>
+                  <option value="3">3 Replicas (Full)</option>
+                  <option value="1">1 Replica (No redundancy)</option>
+                </select>
+              </div>
+              <div class="form-group flex-1">
+                <label for="uploadUser">Owner</label>
+                <input type="text" id="uploadUser" value="admin">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="uploadContent">File Content (Text or Payload)</label>
+              <textarea id="uploadContent" rows="4" placeholder="Enter file text contents..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Execute Distributed Upload</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Active Files &amp; Storage Layout</h3>
+          <div class="search-box">
+            <input type="text" id="fileSearchInput" placeholder="Filter files...">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table" id="filesTable">
+            <thead>
+              <tr>
+                <th>Path</th>
+                <th>Size</th>
+                <th>Owner</th>
+                <th>Version</th>
+                <th>SHA-256 Checksum</th>
+                <th>Replicas</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filesTableBody">
+              <tr><td colspan="7" class="text-center">Loading files...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Version History Subpanel -->
+      <div class="card mt-4" id="versionCard" style="display: none;">
+        <div class="card-header">
+          <h3>Version History: <span id="versionPathTitle" class="text-cyan">--</span></h3>
+          <button class="btn-close" id="closeVersionBtn">&times;</button>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Version</th>
+                <th>Size</th>
+                <th>SHA-256</th>
+                <th>Created At</th>
+                <th>Author</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="versionTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Request Scheduling & Processes -->
+    <section id="tab-scheduler" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>CPU &amp; Request Scheduling (OS Module B)</h2>
+          <p class="section-desc">Real application-level request queue controlling execution order using FCFS, Priority Scheduling, or Round Robin.</p>
+        </div>
+        <div class="algo-selector">
+          <label>Scheduling Policy:</label>
+          <select id="algoSelect">
+            <option value="FCFS">FCFS (First-Come, First-Served)</option>
+            <option value="PRIORITY">Priority Scheduling (Aging Enabled)</option>
+            <option value="ROUND_ROBIN">Round Robin (Time Quantum 50ms)</option>
+          </select>
+          <button class="btn btn-primary" id="setAlgoBtn">Apply Algorithm</button>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Live Request Queue -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Pending Request Queue (Depth: <span id="queueDepth">0</span>)</h3>
+          </div>
+          <div class="card-body">
+            <div class="queue-visualizer" id="queueVisualizer">
+              <div class="empty-state">No pending requests in queue</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduling Metrics -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Scheduling Performance Metrics</h3>
+          </div>
+          <div class="card-body">
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <span class="m-label">Avg Waiting Time:</span>
+                <span id="metricWaitTime" class="m-val text-amber">0.00 ms</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Avg Response Time:</span>
+                <span id="metricRespTime" class="m-val text-cyan">0.00 ms</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Avg Turnaround Time:</span>
+                <span id="metricTurnaround" class="m-val text-indigo">0.00 ms</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">System Throughput:</span>
+                <span id="metricThroughput" class="m-val text-emerald">0.0 ops/sec</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Native Win32 Process Table -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <h3>Native Windows Process &amp; Thread Management (OS Module A)</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Process Name</th>
+                <th>PID</th>
+                <th>Role</th>
+                <th>Memory (Working Set)</th>
+                <th>Port</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="processTableBody">
+              <!-- Injected via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: Memory Buffer & Cache -->
+    <section id="tab-buffer" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Memory, Buffer &amp; Caching (OS Modules C &amp; G)</h2>
+          <p class="section-desc">Bounded Producer-Consumer Ring Buffer with condition-variable backpressure and In-Memory LRU Distributed Cache.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Bounded Buffer Panel -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Bounded Ring Buffer (Chunk Streaming)</h3>
+          </div>
+          <div class="card-body">
+            <div class="buffer-gauge-wrapper">
+              <div class="gauge-title">Buffer Occupancy: <span id="bufOccupancyText">0 / 16 Slots</span></div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="bufFillBar" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="metrics-grid mt-3">
+              <div class="metric-box">
+                <span class="m-label">Total Produced:</span>
+                <span id="bufProduced" class="m-val">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Total Consumed:</span>
+                <span id="bufConsumed" class="m-val">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Blocked Producers (Backpressure):</span>
+                <span id="bufBlockedProd" class="m-val text-rose">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">High Watermark:</span>
+                <span id="bufWatermark" class="m-val text-amber">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LRU Cache Panel -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Distributed LRU File Cache</h3>
+            <button class="btn btn-sm btn-secondary" id="clearCacheBtn">Clear Cache</button>
+          </div>
+          <div class="card-body">
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <span class="m-label">Cache Hit Ratio:</span>
+                <span id="cacheRatio" class="m-val text-emerald">0.0%</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Cache Capacity:</span>
+                <span id="cacheCap" class="m-val">64 items</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Evictions (LRU):</span>
+                <span id="cacheEvict" class="m-val">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Invalidations (on Write):</span>
+                <span id="cacheInval" class="m-val text-amber">0</span>
+              </div>
+            </div>
+            <h4 class="mt-3">Currently Cached Keys:</h4>
+            <div class="cached-keys-list" id="cachedKeysList">
+              <span class="text-muted">Cache is currently empty</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: Synchronization & Deadlocks -->
+    <section id="tab-sync" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Synchronization, Locks &amp; Deadlock Prevention (OS Module D)</h2>
+          <p class="section-desc">Reader-Writer Locks, timeouts, lock hierarchy ordering (Havender's Rule), and Wait-For Graph cycle detection.</p>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <!-- Active Locks -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Active Resource Locks</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Resource Path</th>
+                  <th>Lock Type</th>
+                  <th>Client / Thread</th>
+                  <th>Acquired At</th>
+                </tr>
+              </thead>
+              <tbody id="activeLocksBody">
+                <tr><td colspan="4" class="text-center">No active locks held</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Waiting Queue & Deadlock Detector -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Wait-For Diagnostics &amp; Cycle Detector</h3>
+          </div>
+          <div class="card-body">
+            <div class="deadlock-alert" id="deadlockBanner">
+              <span class="status-badge badge-green">SAFE</span> No Deadlock Cycles Detected (Lock Hierarchy Enforced)
+            </div>
+            <div class="metrics-grid mt-3">
+              <div class="metric-box">
+                <span class="m-label">Active Locks:</span>
+                <span id="syncActiveCount" class="m-val">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Waiting Requests:</span>
+                <span id="syncWaitCount" class="m-val">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Timeouts Encountered:</span>
+                <span id="syncTimeouts" class="m-val text-amber">0</span>
+              </div>
+              <div class="metric-box">
+                <span class="m-label">Deadlocks Prevented:</span>
+                <span id="syncPrevented" class="m-val text-emerald">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: Crash Recovery & WAL -->
+    <section id="tab-recovery" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Crash Recovery &amp; Write-Ahead Log (OS Module E)</h2>
+          <p class="section-desc">Durable operation logging, atomic two-phase updates, and automatic crash repair upon server restart.</p>
+        </div>
+        <button class="btn btn-primary" id="runRecoveryBtn">Trigger Recovery Check</button>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Durable Write-Ahead Log (WAL) Journal Entries</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>LSN</th>
+                <th>Transaction ID</th>
+                <th>Operation</th>
+                <th>Target File</th>
+                <th>State</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="walTableBody">
+              <tr><td colspan="6" class="text-center">Loading WAL entries...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: Disk Seek Simulator -->
+    <section id="tab-disksim" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Disk Scheduling Simulation Demonstration (OS Module H)</h2>
+          <p class="section-desc">Interactive comparison of FCFS, SSTF, and SCAN (Elevator) seek distance metrics on synthetic cylinder requests.</p>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Run Disk Seek Simulation</h3>
+        </div>
+        <div class="card-body">
+          <form id="diskSimForm">
+            <div class="form-row">
+              <div class="form-group flex-1">
+                <label>Initial Head Position (Cylinder)</label>
+                <input type="number" id="diskStartCyl" value="53" min="0" max="199">
+              </div>
+              <div class="form-group flex-2">
+                <label>Request Queue (Cylinders separated by commas)</label>
+                <input type="text" id="diskRequests" value="98, 183, 37, 122, 14, 124, 65, 67">
+              </div>
+              <div class="form-group flex-1">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Run Comparison</button>
+              </div>
+            </div>
+          </form>
+          <div class="disclaimer-badge mt-2">
+            <strong>NOTE:</strong> Educational OS demonstration comparing head movement metrics. Does not alter the physical Windows disk controller.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3col" id="diskResultsGrid">
+        <!-- Injected via app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 8: Security & Audit Trail -->
+    <section id="tab-audit" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h2>Security &amp; Audit Trail (OS Module I)</h2>
+          <p class="section-desc">Audit logging of all distributed file transactions, access control checks, and path traversal defenses.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Real-Time Audit Log Stream</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Target Path</th>
+                <th>Result</th>
+                <th>Client IP</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody">
+              <tr><td colspan="8" class="text-center">Loading audit log...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

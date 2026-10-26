@@ -1,0 +1,106 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : [],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Release-b5805d5c08fd3d92def4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "AdvancedDistributedFileSystem",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "dfs_client::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dfs_client-Release-0a63dbc229020b0971ee.json",
+					"name" : "dfs_client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dfs_coordinator::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dfs_coordinator-Release-99ff20a1f10466d30d40.json",
+					"name" : "dfs_coordinator",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dfs_core::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dfs_core-Release-acce86cf9a2f8e390805.json",
+					"name" : "dfs_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dfs_storage_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dfs_storage_node-Release-1872b7adef8badebb1d1.json",
+					"name" : "dfs_storage_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dfs_tests::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dfs_tests-Release-0fd7b9ea29b27d156fef.json",
+					"name" : "dfs_tests",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sqlite3::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sqlite3-Release-e20500eb169227adb612.json",
+					"name" : "sqlite3",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/hp/Documents/os/build",
+		"source" : "E:/hp/Documents/os"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 11
+	}
+}

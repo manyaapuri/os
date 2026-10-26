@@ -1,0 +1,8 @@
+E:/hp/Documents/os/build/CMakeFiles/sqlite3.dir
+E:/hp/Documents/os/build/CMakeFiles/dfs_core.dir
+E:/hp/Documents/os/build/CMakeFiles/dfs_coordinator.dir
+E:/hp/Documents/os/build/CMakeFiles/dfs_storage_node.dir
+E:/hp/Documents/os/build/CMakeFiles/dfs_client.dir
+E:/hp/Documents/os/build/CMakeFiles/dfs_tests.dir
+E:/hp/Documents/os/build/CMakeFiles/edit_cache.dir
+E:/hp/Documents/os/build/CMakeFiles/rebuild_cache.dir
